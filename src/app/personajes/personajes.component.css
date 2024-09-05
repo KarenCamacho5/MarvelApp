@@ -1,0 +1,49 @@
+.tituloPrincipal{
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 20px;
+    margin-left: 20px;
+}
+.imagenes{
+    min-height: 374px;
+    max-height: 374px;
+}
+.card{
+    border: 1px solid #fff;
+    min-height: 700px;
+    max-height: 700px;
+}
+.header{
+    padding: 20px;
+}
+
+.description {
+    flex: 1; 
+    padding: 10px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.fecha{
+    font-size: 15px;
+}
+
+.boton{
+    width: 177px;
+    height: 37px;
+    font-size: 20px;
+    margin: 20px;
+    background: #673ab7;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+
+.footer {
+    padding: 10px; 
+    text-align: center; 
+    min-height: 60px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
