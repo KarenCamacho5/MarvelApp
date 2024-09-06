@@ -20,6 +20,9 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatLabel } from '@angular/material/form-field';
 import { ComicsComponent } from './comics/comics.component';
 import { MatTableModule } from '@angular/material/table';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -43,12 +46,16 @@ import { MatTableModule } from '@angular/material/table';
     MatPaginator,
     MatFormField,
     MatLabel,
-    MatTableModule
-  ],
+    MatTableModule,
+    SpinnerModule
+],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {provide: HTTP_INTERCEPTORS, useClass:SpinnerIntercepor, multi:true}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { }import { SpinnerModule } from './spinner/spinner.module';
+import { SpinnerIntercepor } from './interceptors/spinner.interceptor';
+
