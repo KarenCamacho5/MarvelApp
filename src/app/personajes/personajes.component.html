@@ -1,15 +1,22 @@
 <mat-card>
-    <div fxFlex fxLayout="column">
-      <h2 class="tituloPrincipal">Listado de Heroes</h2>
 
-          <!-- Campo de búsqueda
-          <mat-form-field appearance="fill" class="buscador">
-            <mat-label>Buscar personaje</mat-label>
-            <input matInput #input (keyup)="buscar(input.value)">
-          </mat-form-field> -->
-  
+  <!-- Cabecera de la tarjeta que contiene el título y el campo de búsqueda -->
+  <mat-card-header class="header">
+    <h2 class="tituloPrincipal">Listado de Heroes</h2>
+
+    <!-- Contenedor para el campo de búsqueda -->
+    <div class="buscador" >
+      <input class="form-control " type="text"
+      required name='characterName' id='characterName'
+      placeholder="Buscar Personaje" aria-label="Search" (keyup)="onSearch($event)">
+    </div>
+  </mat-card-header>
+
+  <!-- Contenido principal de la tarjeta -->
+  <mat-card-content>
+    <div fxFlex fxLayout="column">
       <div fxLayout="row wrap">
-        <div *ngFor="let personaje of allPersonajes.data" fxFlex="25" fxFlex.md="33" fxFlex.sm="50" fxFlex.xs="100" fxLayout="column" style="padding: 5px;">
+        <div *ngFor="let personaje of paginatedPersonajes" fxFlex="25" fxFlex.md="33" fxFlex.sm="50" fxFlex.xs="100" fxLayout="column" style="padding: 5px;">
           <mat-card class="card">
             <mat-card-header class="header">
               <mat-card-title>
@@ -25,9 +32,9 @@
           </mat-card>
         </div>
       </div>
-  
-      <!-- Paginador -->
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
+  </mat-card-content>  
+
+    <!-- Componente de paginador para la tabla de personajes -->
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </mat-card>
-  

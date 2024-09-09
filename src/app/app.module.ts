@@ -16,11 +16,13 @@ import { PersonajesComponent } from './personajes/personajes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule} from '@angular/flex-layout';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormField } from '@angular/material/form-field';
 import { MatLabel } from '@angular/material/form-field';
 import { ComicsComponent } from './comics/comics.component';
 import { MatTableModule } from '@angular/material/table';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -47,7 +49,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     MatFormField,
     MatLabel,
     MatTableModule,
-    SpinnerModule
+    SpinnerModule,
+    MatFormFieldModule,
+    MatPaginatorModule
 ],
   providers: [
     provideClientHydration(),
