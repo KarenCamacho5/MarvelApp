@@ -1,38 +1,57 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NavbarComponent } from './navbar.component';
+import { Router } from '@angular/router';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
-import { NavbarComponent } from './navbar.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
+  let router: Router;
+  let breakpointObserver: jasmine.SpyObj<BreakpointObserver>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [NavbarComponent],
+  beforeEach(async () => {
+    const breakpointObserverSpy = jasmine.createSpyObj('BreakpointObserver', ['observe']);
+    breakpointObserverSpy.observe.and.returnValue(of({ matches: true }));
+
+    await TestBed.configureTestingModule({
+      declarations: [ NavbarComponent ],
       imports: [
-        NoopAnimationsModule,
-        MatButtonModule,
-        MatIconModule,
-        MatListModule,
+        RouterTestingModule,
         MatSidenavModule,
         MatToolbarModule,
+        NoopAnimationsModule // Esto ayuda a evitar problemas con animaciones en pruebas
+      ],
+      providers: [
+        {
+          provide: BreakpointObserver,
+          useValue: breakpointObserverSpy
+        }
       ]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    breakpointObserver = TestBed.inject(BreakpointObserver) as jasmine.SpyObj<BreakpointObserver>;
+
     fixture.detectChanges();
   });
 
-  it('should compile', () => {
+  it('debería crear el componente', () => {
     expect(component).toBeTruthy();
   });
+
+  it('debería navegar a "/personajes" cuando se haga click en el título', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+
+    component.irAPersonajes();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/personajes']);
+  });
+
 });

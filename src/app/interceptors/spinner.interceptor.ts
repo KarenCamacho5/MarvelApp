@@ -4,7 +4,7 @@ import { finalize, Observable } from "rxjs";
 import { SpinnerService } from "../spinner/spinner.service";
 
 @Injectable()
-export class SpinnerIntercepor implements HttpInterceptor{
+export class SpinnerInterceptor implements HttpInterceptor{
     constructor(private spinnerSvc: SpinnerService ){
     }
 

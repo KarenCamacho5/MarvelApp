@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -13,18 +13,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { PersonajeComponent } from './personajes/personaje/personaje.component';
 import { PersonajesComponent } from './personajes/personajes.component';
-import { HttpClientModule } from '@angular/common/http';
-import { FlexLayoutModule} from '@angular/flex-layout';
-import { MatPaginator } from '@angular/material/paginator';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormField } from '@angular/material/form-field';
-import { MatLabel } from '@angular/material/form-field';
-import { ComicsComponent } from './comics/comics.component';
-import { MatTableModule } from '@angular/material/table';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
-
+import { MatTableModule } from '@angular/material/table';
+import { ComicsComponent } from './comics/comics.component';
+import { SpinnerModule } from './spinner/spinner.module';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 
 @NgModule({
   declarations: [
@@ -45,21 +41,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     HttpClientModule,
     FlexLayoutModule,
     MatCardModule,
-    MatPaginator,
-    MatFormField,
-    MatLabel,
+    MatPaginatorModule,
+    MatFormFieldModule,
     MatTableModule,
     SpinnerModule,
-    MatFormFieldModule,
-    MatPaginatorModule
-],
+    BrowserAnimationsModule
+  ],
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    {provide: HTTP_INTERCEPTORS, useClass:SpinnerIntercepor, multi:true}
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }import { SpinnerModule } from './spinner/spinner.module';
-import { SpinnerIntercepor } from './interceptors/spinner.interceptor';
-
+export class AppModule { }
