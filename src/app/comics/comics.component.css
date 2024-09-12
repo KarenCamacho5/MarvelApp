@@ -13,7 +13,7 @@
 }
 table {
     width: 100%;
-    table-layout: fixed; /* Hace que las columnas tengan el mismo ancho */
+    table-layout: fixed;
     border-collapse: collapse;
   }
   
@@ -21,6 +21,12 @@ table {
     text-align: left;
     padding: 8px;
     border-bottom: 1px solid #ddd; 
+  }
+
+  td{
+    text-align: center; 
+    min-height: 100px;
+    min-width: 100px;
   }
 
   td img {

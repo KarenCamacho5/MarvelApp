@@ -38,13 +38,13 @@ export class PersonajesApiService {
    * @param nombre El nombre del personaje a buscar.
    * @returns Un Observable que emite los resultados de la búsqueda.
    */
-  buscarPersonajesPorNombre(nombre: string): Observable<any> {
-    const url = `${this.URL_API}&name=${encodeURIComponent(nombre)}`;
-    return this.http.get<any>(url)
-      .pipe(map(data => data.data.results));
+   buscarPersonajesPorNombre(nombre: string): Observable<any> {
+    return this.getAllPersonajes().pipe(
+      map(personajes => personajes.filter(
+        (personaje: any) => personaje.name.toLowerCase().includes(nombre.toLowerCase())
+      ))
+    );
   }
-
-
 
   /**
    * Obtiene los cómics de un personaje específico desde la API de Marvel.

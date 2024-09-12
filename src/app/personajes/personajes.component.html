@@ -25,9 +25,9 @@
               </mat-card-title>
             </mat-card-header>
             <img class="imagenes" mat-card-image src="{{personaje.thumbnail.path}}.{{personaje.thumbnail.extension}}" alt="{{personaje.name}}">
-            <p class="description">{{personaje.description}}</p>
+            <p class="description"> {{ personaje.description ? personaje.description : 'Sin descripción' }}</p>
             <mat-card-footer class="footer">
-              <button mat-button [routerLink]="['/comics', personaje.id]" class="boton">Comics</button>
+              <button mat-button style="color: #fff;" [routerLink]="['/comics', personaje.id]" class="boton">Comics</button>
             </mat-card-footer>
           </mat-card>
         </div>

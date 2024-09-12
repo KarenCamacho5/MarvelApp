@@ -9,8 +9,8 @@
 }
 .card{
     border: 1px solid #fff;
-    min-height: 700px;
-    max-height: 700px;
+    min-height: 809px;
+    max-height: 809px;
 }
 .header{
     padding: 20px;
@@ -21,8 +21,9 @@
     padding: 10px;
     font-size: 14px;
     color: #ffffff;
+    min-width: 200px;
+    min-height: 150px
 }
-
 .fecha{
     font-size: 15px;
 }
@@ -35,17 +36,13 @@
     background: #673ab7;
     border: none;
     border-radius: 5px;
-    color: #fff;
+    color: #ffffff;
 }
 
 
 .footer {
     padding: 10px; 
     text-align: center; 
-    min-height: 60px;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
 }
 .header{
     height: 110px;

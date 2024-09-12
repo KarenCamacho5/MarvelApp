@@ -57,10 +57,10 @@ export class PersonajesComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     const searchTerm = input.value.trim();
 
-    if (searchTerm.length > 0) {
+    if (searchTerm.length >= 1) {
       // Llama a buscarPersonaje() si hay un término de búsqueda.
       this.buscarPersonaje(searchTerm);
-    } else {
+    } else if (searchTerm === '') {
       // Cargar todos los personajes si el campo de búsqueda está vacío
       this.getPersonajes(); 
     }

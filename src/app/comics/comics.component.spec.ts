@@ -13,10 +13,17 @@ describe('ComicsComponent', () => {
   let component: ComicsComponent;
   let fixture: ComponentFixture<ComicsComponent>;
   let personajesApiService: jasmine.SpyObj<PersonajesApiService>;
+
+  /**
+   * Antes de cada prueba, se configura el entorno de pruebas.
+   * Se inicializa un espía de `PersonajesApiService` y se proporciona al módulo de prueba.
+   */
   
   beforeEach(async () => {
+    // Se crea un espía que reemplazará a `PersonajesApiService` en las pruebas.
     const personajesApiServiceSpy = jasmine.createSpyObj('PersonajesApiService', ['getComics']);
 
+    // Configuración del entorno de pruebas, declarando el componente y sus dependencias.
     await TestBed.configureTestingModule({
       declarations: [ComicsComponent],
       imports: [
@@ -37,10 +44,17 @@ describe('ComicsComponent', () => {
     personajesApiService = TestBed.inject(PersonajesApiService) as jasmine.SpyObj<PersonajesApiService>;
   });
 
+  /**
+   * Prueba básica que verifica que el componente `ComicsComponent` se crea correctamente.
+   */
   it('debería crear', () => {
     expect(component).toBeTruthy();
   });
 
+  /**
+   * Prueba que verifica si el componente llama al servicio `getComics` durante su inicialización
+   * y si actualiza correctamente la tabla con los datos de cómics.
+   */
   it('debería buscar cómics en init', () => {
     const respuestaSimulada = [
       {
@@ -65,6 +79,10 @@ describe('ComicsComponent', () => {
     expect(component.comics.data).toEqual(respuestaSimulada);
   });
 
+  /**
+   * Prueba que verifica si el paginador de la tabla se inicializa correctamente
+   * después de que la vista del componente ha sido renderizada.
+   */
   it('debería inicializar el paginador después de ver el inicios', () => {
     fixture.detectChanges();
     component.ngAfterViewInit();
