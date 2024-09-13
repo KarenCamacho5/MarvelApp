@@ -2,7 +2,7 @@
     <h2 class="titulo">Listado de Comics</h2>
   
     <mat-card-content>
-      <table mat-table [dataSource]="comics" class="mat-cell">
+      <table mat-table [dataSource]="comics" class="mat-cell" *ngIf="!isCardView">
   
         <!-- Thumbnail column -->
         <ng-container matColumnDef="thumbnail">
@@ -76,8 +76,39 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   
       </table>
+
+      <!-- Vista de Tarjetas (cuando es Card View) -->
+      <div class="card-view" *ngIf="isCardView">
+        <div class="comic-card1" *ngFor="let element of paginatedComics">
+          <mat-card class="comic-card">
+            <h3 class="title-comic"><strong>{{ element.title }}</strong></h3>
+            <img class="img-comic" *ngIf="element.thumbnail" [src]="element.thumbnail.path + '.' + element.thumbnail.extension" alt="Thumbnail" width="100">
+            <p class="date-comic"><strong>Fecha de Venta: </strong>{{ element.dates[0].date | date }}</p>
+            <p class="date-comic"><strong>Fecha de Modificación: </strong>{{ element.modified | date }}</p>
+            
+            <p> <strong>Descripción: </strong>{{ element.description ? element.description : 'Sin descripción'}}</p>
+            
+            <p  class="upc-comic"><strong>UPC: </strong>{{ element.upc }}</p>
+            
+            <p  class="creators-comic"><strong>Creadores: </strong></p>
+            <ul>
+              <li *ngFor="let creator of element.creators?.items">{{ creator.name }} ({{ creator.role }})</li>
+            </ul>
+            <p  class="characters-comic"><strong>Personajes: </strong></p>
+            <ul>
+              <li *ngFor="let character of element.characters?.items">{{ character.name }}</li>
+            </ul>
+            <p  class="prices-comic"><strong>Precios: </strong></p>
+            <ul>
+              <li *ngFor="let price of element.prices">
+                {{ price.type === 'printPrice' ? 'Print Price: ' : 'Digital Price: ' }} {{ price.price | currency }}
+              </li>
+            </ul>
+          </mat-card>
+        </div>
+      </div>
   
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <mat-paginator  [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </mat-card-content>
   </mat-card>
   

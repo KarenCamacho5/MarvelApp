@@ -3,6 +3,7 @@ import { PersonajesApiService } from '../personajes/personaje/compartir/personaj
 import { MatTableDataSource } from '@angular/material/table'; 
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-comics',
@@ -10,25 +11,25 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./comics.component.css']
 })
 export class ComicsComponent implements OnInit, AfterViewInit {
-  // Fuente de datos para la tabla de cómics, utilizando MatTableDataSource para gestionar el manejo de datos en tablas.
+  // Fuente de datos para la tabla de cómics, utilizando MatTableDataSource.
   comics = new MatTableDataSource<Comic>();
+  
   // Definición de las columnas que serán mostradas en la tabla de cómics.
   displayedColumns: string[] = [
     'thumbnail', 'title', 'dates', 'description', 'upc', 'modified', 'creators', 'characters', 'prices'
   ];
-  // ViewChild permite obtener una referencia al paginador después de que la vista se haya renderizado.
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  // Para la vista de tarjetas
+  paginatedComics: Comic[] = [];  // Arreglo para almacenar los cómics paginados en la vista de tarjetas
+  isCardView: boolean = false;    // Alternar entre vista de tarjetas o tabla
 
-  /**
-   * Constructor de la clase.
-   * Inyecta el servicio `PersonajesApiService` para acceder a la API de personajes.
-   * Inyecta `ActivatedRoute` para obtener el parámetro de la ruta activa.
-   */
-  constructor(private personajesService: PersonajesApiService, private route: ActivatedRoute) {}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;  // Referencia al paginador
+
+  constructor(private personajesService: PersonajesApiService, private route: ActivatedRoute, private breakpointObserver: BreakpointObserver) {}
 
   /**
-   * Se subscribe al parámetro de la ruta (`id`) y, si está presente, llama al método `verComics()`.
+   * En el hook `ngOnInit`, nos suscribimos a los parámetros de la ruta para obtener el ID del personaje
+   * y detectar cambios en el tamaño de pantalla para alternar entre la vista de tabla y tarjetas.
    */
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -37,32 +38,67 @@ export class ComicsComponent implements OnInit, AfterViewInit {
         this.verComics(personajeId);
       }
     });
-  }
-  /**
-   * Establece el paginador de la tabla para que funcione correctamente.
-   */
-  ngAfterViewInit(): void {
-    this.comics.paginator = this.paginator;
+
+    // Observa el tamaño de pantalla y cambia la vista a tarjetas si es un dispositivo móvil
+    this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .subscribe(result => {
+        this.isCardView = result.matches;
+        console.log(this.isCardView ? 'Cambiando a vista de tarjetas' : 'Cambiando a vista de tabla');
+        this.updatePaginatedComics();  // Actualiza la vista de tarjetas si es necesario
+      });
   }
 
   /**
+   * Después de que la vista ha sido completamente renderizada (`ngAfterViewInit`),
+   * asignamos el paginador a `MatTableDataSource` para que la tabla pueda paginar correctamente.
+   */
+  ngAfterViewInit(): void {
+    // Asigna siempre el paginador a MatTableDataSource
+    this.comics.paginator = this.paginator;
+
+    // Suscribirse al evento de cambio de página del paginador
+    this.paginator.page.subscribe(() => {
+      if (this.isCardView) {
+        this.updatePaginatedComics();  // Actualiza las tarjetas si estamos en vista de tarjetas
+      }
+    });
+  }
+
+ /**
    * Método que interactúa con el servicio `PersonajesApiService` para obtener los cómics de un personaje específico.
    * @param personajeId El ID del personaje del cual se obtendrán los cómics.
    */
   verComics(personajeId: string): void {
-    this.personajesService.getComics(personajeId).subscribe(
-      comics => {
-        this.comics.data = comics;
+    this.personajesService.getComics(personajeId).subscribe(comics => {
+      this.comics.data = comics;  // Carga los datos en MatTableDataSource
+      this.paginator.pageIndex = 0;  // Reinicia el paginador a la primera página
+      this.updatePaginatedComics();  // Actualiza la paginación para las tarjetas
+    });
+  }
+
+  /**
+   * Método para actualizar la lista de cómics que se muestran en la vista de tarjetas.
+   * Este método realiza la paginación manual para la vista de tarjetas.
+   */
+  updatePaginatedComics(): void {
+    if (this.isCardView) {
+      // Calcula el índice inicial y final de los cómics que se van a mostrar
+      const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+      const endIndex = startIndex + this.paginator.pageSize;
+
+      // Verifica que el rango esté dentro de los datos disponibles
+      if (startIndex < this.comics.data.length) {
+        this.paginatedComics = this.comics.data.slice(startIndex, Math.min(endIndex, this.comics.data.length));
+      } else {
+        this.paginatedComics = [];  // Si no hay más datos para mostrar, el array se queda vacío
       }
-    );
+    }
   }
 }
 
 /**
  * Interfaz `Comic` que define la estructura de un cómic.
- * Esto asegura que los datos recibidos de la API tengan la forma esperada.
  */
-
 export interface Comic {
   id: number;
   title: string;
@@ -89,4 +125,3 @@ export interface Comic {
     date: string;
   }[];
 }
-
