@@ -5,9 +5,10 @@
   <mat-sidenav-content>
     <!-- Barra de navegación (toolbar) con clase personalizada 'navbar' -->
     <mat-toolbar class="navbar">
+      <img class="logo" src="/img/Marvel-logo.jpg" alt="Logo" (click)="irAPersonajes()">
       <!-- Elemento de texto que actúa como título de la barra de navegación -->
       <!-- Cuando se hace clic en el título, se llama al método `irAPersonajes()` para navegar a la página de personajes -->
-      <span class="titulo" (click)="irAPersonajes()">Marvel Heroes</span>
+      <span class="titulo" style="color: #000;">Marvel Heroes</span>
     </mat-toolbar>
       <!-- Placeholder para la visualización de las vistas dinámicas cargadas por el enrutador -->
      <router-outlet></router-outlet>

@@ -56,7 +56,7 @@ export class PersonajesComponent implements OnInit {
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     const searchTerm = input.value.trim();
-
+  
     if (searchTerm.length >= 1) {
       // Llama a buscarPersonaje() si hay un término de búsqueda.
       this.buscarPersonaje(searchTerm);
@@ -65,6 +65,7 @@ export class PersonajesComponent implements OnInit {
       this.getPersonajes(); 
     }
   }
+  
 
   /**
    * Busca personajes por nombre utilizando el servicio de API.

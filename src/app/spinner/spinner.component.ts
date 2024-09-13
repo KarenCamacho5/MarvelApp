@@ -9,7 +9,7 @@ import { Observable } from 'rxjs'; // Tipo `Observable` de RxJS para manejo de f
     <!-- Contenedor para el spinner que aparece como una superposición (overlay) -->
     <div class="overlay" *ngIf="isloading$ | async">
       <!-- Spinner (cargador) representado por una animación -->
-      <div class="lds-hourglass"></div>
+      <img class="fondo" src="/img/Marvel-logo.jpg" alt="Logo">
     </div>`,
   styleUrls: ['./spinner.component.css'] // Ruta al archivo CSS que contiene los estilos del componente.
 })
