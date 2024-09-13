@@ -62,3 +62,13 @@
     border-bottom: 2px solid #fff;
     color: #fff;
 }
+
+@media (max-width: 600px){
+    .card{
+    min-height: 809px;
+    max-height: 809px;
+    min-width: 350px;
+    max-width: 350px;
+    margin:20px
+    }
+}

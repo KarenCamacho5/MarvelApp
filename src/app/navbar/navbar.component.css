@@ -30,3 +30,12 @@
   width: 100px;
   margin-right: 0 auto;
 }
+
+@media (max-width: 600px){
+  .logo{
+    width: 100px;
+    margin-right: 0 auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+}
